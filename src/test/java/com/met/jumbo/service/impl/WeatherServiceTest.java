@@ -89,11 +89,11 @@ class WeatherServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         Weather w1 = new Weather(1, "snow", "Sarjapur, Bangalore", "560035", "Bangalore", "Snow Storm", "20°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.now());
-        Weather w2 = new Weather(1, "sunny", "Bellandur, Bangalore", "560103", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.now());
-        Weather w3 = new Weather(1, "sunny", "Home, Bangalore", "560001", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,07,01));
-        Weather w4 = new Weather(1, "sunny", "Home 2, Bangalore", "560002", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,06,22));
-        Weather w5 = new Weather(1, "sunny", "Home 3, Bangalore", "560003", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,05,03));
-        Weather w6 = new Weather(1, "sunny", "Home 4, Bangalore", "560004", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,04,14));
+        Weather w2 = new Weather(2, "sunny", "Bellandur, Bangalore", "560103", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.now());
+        Weather w3 = new Weather(3, "sunny", "Home, Bangalore", "560001", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,07,01));
+        Weather w4 = new Weather(4, "sunny", "Home 2, Bangalore", "560002", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,06,22));
+        Weather w5 = new Weather(5, "sunny", "Home 3, Bangalore", "560003", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,05,03));
+        Weather w6 = new Weather(6, "sunny", "Home 4, Bangalore", "560004", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,04,14));
         Mockito.when(dao.findByCityAndRecordDate("Bangalore", LocalDate.now())).thenReturn(Optional.of(w1));
         Mockito.when(dao.findByZipcodeAndRecordDate("560103", LocalDate.now())).thenReturn(Optional.of(w2));
 
