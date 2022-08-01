@@ -29,7 +29,7 @@ class WeatherServiceTest {
 
     @Test
     public void validZipCode_success() throws WeatherNotFoundException {
-        WeatherDTO w = service.details("560103", "ZIPCODE", LocalDate.now());
+        WeatherDTO w = service.today("560103", "ZIPCODE", LocalDate.now());
         assertEquals("sunny", w.getCode());
         assertEquals("Bellandur, Bangalore", w.getLocation());
         assertEquals("560103", w.getZipcode());
@@ -43,12 +43,12 @@ class WeatherServiceTest {
 
     @Test
     public void invalidZipCode_exception() {
-        assertThrows(WeatherNotFoundException.class, () -> service.details("000000", "ZIPCODE", LocalDate.now()));
+        assertThrows(WeatherNotFoundException.class, () -> service.today("000000", "ZIPCODE", LocalDate.now()));
     }
 
     @Test
     public void validCity_success() throws WeatherNotFoundException {
-        WeatherDTO w = service.details("Bangalore", "CITY", LocalDate.now());
+        WeatherDTO w = service.today("Bangalore", "CITY", LocalDate.now());
         assertEquals("snow", w.getCode());
         assertEquals("Sarjapur, Bangalore", w.getLocation());
         assertEquals("560035", w.getZipcode());
@@ -62,44 +62,44 @@ class WeatherServiceTest {
 
     @Test
     public void invalidCity_exception() {
-        assertThrows(WeatherNotFoundException.class, () -> service.details("abcd", "CITY", LocalDate.now()));
+        assertThrows(WeatherNotFoundException.class, () -> service.today("abcd", "CITY", LocalDate.now()));
     }
 
     @Test
     public void invalidAddressType_exception() {
-        assertThrows(WeatherNotFoundException.class, () -> service.details("abcd", "XYZ", LocalDate.now()));
+        assertThrows(WeatherNotFoundException.class, () -> service.today("abcd", "XYZ", LocalDate.now()));
     }
 
     @Test
     public void validZip_dateFormat_success() throws WeatherNotFoundException {
-        WeatherDTO w1 = service.details("560001", "ZIPCODE", LocalDate.of(2022,07,01));
+        WeatherDTO w1 = service.today("560001", "ZIPCODE", LocalDate.of(2022,07,01));
         assertEquals("Friday, July 1st, 2022", w1.getDate());
 
-        WeatherDTO w2 = service.details("560002", "ZIPCODE", LocalDate.of(2022,06,22));
+        WeatherDTO w2 = service.today("560002", "ZIPCODE", LocalDate.of(2022,06,22));
         assertEquals("Wednesday, June 22nd, 2022", w2.getDate());
 
-        WeatherDTO w3 = service.details("560003", "ZIPCODE", LocalDate.of(2022,05,03));
+        WeatherDTO w3 = service.today("560003", "ZIPCODE", LocalDate.of(2022,05,03));
         assertEquals("Tuesday, May 3rd, 2022", w3.getDate());
 
-        WeatherDTO w4 = service.details("560004", "ZIPCODE", LocalDate.of(2022,04,14));
+        WeatherDTO w4 = service.today("560004", "ZIPCODE", LocalDate.of(2022,04,14));
         assertEquals("Thursday, April 14th, 2022", w4.getDate());
     }
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        Weather w1 = new Weather(1, "snow", "Sarjapur, Bangalore", "560035", "Bangalore", "Snow Storm", "20°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.now());
-        Weather w2 = new Weather(2, "sunny", "Bellandur, Bangalore", "560103", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.now());
-        Weather w3 = new Weather(3, "sunny", "Home, Bangalore", "560001", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,07,01));
-        Weather w4 = new Weather(4, "sunny", "Home 2, Bangalore", "560002", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,06,22));
-        Weather w5 = new Weather(5, "sunny", "Home 3, Bangalore", "560003", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,05,03));
-        Weather w6 = new Weather(6, "sunny", "Home 4, Bangalore", "560004", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,04,14));
-        Mockito.when(dao.findByCityAndRecordDate("Bangalore", LocalDate.now())).thenReturn(Optional.of(w1));
-        Mockito.when(dao.findByZipcodeAndRecordDate("560103", LocalDate.now())).thenReturn(Optional.of(w2));
+        Weather w1 = new Weather(1, "CITY", "snow", "Sarjapur, Bangalore", "560035", "Bangalore", "Snow Storm", "20°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.now());
+        Weather w2 = new Weather(2, "ZIPCODE", "sunny", "Bellandur, Bangalore", "560103", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.now());
+        Weather w3 = new Weather(3, "ZIPCODE", "sunny", "Home, Bangalore", "560001", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,07,01));
+        Weather w4 = new Weather(4, "ZIPCODE", "sunny", "Home 2, Bangalore", "560002", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,06,22));
+        Weather w5 = new Weather(5, "ZIPCODE", "sunny", "Home 3, Bangalore", "560003", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,05,03));
+        Weather w6 = new Weather(6, "ZIPCODE", "sunny", "Home 4, Bangalore", "560004", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,04,14));
+        Mockito.when(dao.findByZipcodeAndAddressTypeAndRecordDate( "Bangalore", "CITY",LocalDate.now())).thenReturn(Optional.of(w1));
+        Mockito.when(dao.findByZipcodeAndAddressTypeAndRecordDate( "560103", "ZIPCODE", LocalDate.now())).thenReturn(Optional.of(w2));
 
-        Mockito.when((dao.findByZipcodeAndRecordDate("560001", LocalDate.of(2022,07,01)))).thenReturn(Optional.of(w3));
-        Mockito.when((dao.findByZipcodeAndRecordDate("560002", LocalDate.of(2022,06,22)))).thenReturn(Optional.of(w4));
-        Mockito.when((dao.findByZipcodeAndRecordDate("560003", LocalDate.of(2022,05,03)))).thenReturn(Optional.of(w5));
-        Mockito.when((dao.findByZipcodeAndRecordDate("560004", LocalDate.of(2022,04,14)))).thenReturn(Optional.of(w6));
+        Mockito.when((dao.findByZipcodeAndAddressTypeAndRecordDate( "560001", "ZIPCODE", LocalDate.of(2022,07,01)))).thenReturn(Optional.of(w3));
+        Mockito.when((dao.findByZipcodeAndAddressTypeAndRecordDate( "560002", "ZIPCODE", LocalDate.of(2022,06,22)))).thenReturn(Optional.of(w4));
+        Mockito.when((dao.findByZipcodeAndAddressTypeAndRecordDate( "560003", "ZIPCODE", LocalDate.of(2022,05,03)))).thenReturn(Optional.of(w5));
+        Mockito.when((dao.findByZipcodeAndAddressTypeAndRecordDate( "560004", "ZIPCODE", LocalDate.of(2022,04,14)))).thenReturn(Optional.of(w6));
     }
 }

@@ -90,17 +90,17 @@ class WeatherControllerTest {
 
     @BeforeEach
     void setUp() {
-        Weather w1 = new Weather(1, "snow", "Sarjapur, Bangalore", "560035", "Bangalore", "Snow Storm", "20°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.now());
+        Weather w1 = new Weather(1, "ZIPCODE", "snow", "Sarjapur, Bangalore", "560035", "Bangalore", "Snow Storm", "20°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.now());
         dao.save(w1);
-        Weather w2 = new Weather(2, "sunny", "Bellandur, Bangalore", "560103", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.now());
+        Weather w2 = new Weather(2, "ZIPCODE", "sunny", "Bellandur, Bangalore", "560103", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.now());
         dao.save(w2);
-        Weather w3 = new Weather(3, "sunny", "Home, Bangalore", "560001", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,07,01));
+        Weather w3 = new Weather(3, "ZIPCODE", "sunny", "Home, Bangalore", "560001", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,07,01));
         dao.save(w3);
-        Weather w4 = new Weather(4, "sunny", "Home 2, Bangalore", "560002", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,06,22));
+        Weather w4 = new Weather(4, "ZIPCODE", "sunny", "Home 2, Bangalore", "560002", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,06,22));
         dao.save(w4);
-        Weather w5 = new Weather(5, "sunny", "Home 3, Bangalore", "560003", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,05,03));
+        Weather w5 = new Weather(5, "ZIPCODE", "sunny", "Home 3, Bangalore", "560003", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,05,03));
         dao.save(w5);
-        Weather w6 = new Weather(6, "sunny", "Home 4, Bangalore", "560004", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,04,14));
+        Weather w6 = new Weather(6, "ZIPCODE", "sunny", "Home 4, Bangalore", "560004", "Bangalore", "Clear Day", "32°C", "1011 mbar", "30%", "15 km/h WNW", LocalDate.of(2022,04,14));
         dao.save(w6);
     }
 

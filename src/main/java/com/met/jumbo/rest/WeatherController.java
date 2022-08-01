@@ -1,8 +1,8 @@
 package com.met.jumbo.rest;
 
 import com.met.jumbo.dto.WeatherDTO;
+import com.met.jumbo.dto.WeatherPredictions;
 import com.met.jumbo.exception.WeatherNotFoundException;
-import com.met.jumbo.model.Weather;
 import com.met.jumbo.service.IWeatherService;
 import com.met.jumbo.validation.ValidAddressType;
 import lombok.extern.slf4j.Slf4j;
@@ -26,10 +26,18 @@ public class WeatherController {
     IWeatherService service;
 
     @GetMapping("/{type}/{address}/{date}")
-    public ResponseEntity<WeatherDTO> weatherDetails(
+    public ResponseEntity<WeatherDTO> today(
             @ValidAddressType @PathVariable String type,
             @PathVariable String address,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate date) throws WeatherNotFoundException {
-        return new ResponseEntity(service.details(address, type, date),  HttpStatus.OK);
+        return new ResponseEntity(service.today(address, type, date),  HttpStatus.OK);
+    }
+
+    @GetMapping("predictions/{type}/{address}/{date}")
+    public ResponseEntity<WeatherPredictions> weatherPredictions(
+            @ValidAddressType @PathVariable String type,
+            @PathVariable String address,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable LocalDate date) throws WeatherNotFoundException {
+        return new ResponseEntity(service.predictions(address, type, date),  HttpStatus.OK);
     }
 }

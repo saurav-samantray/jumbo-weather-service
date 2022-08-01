@@ -2,6 +2,7 @@ package com.met.jumbo.service.impl;
 
 import com.met.jumbo.dao.WeatherDao;
 import com.met.jumbo.dto.WeatherDTO;
+import com.met.jumbo.dto.WeatherPredictions;
 import com.met.jumbo.exception.WeatherNotFoundException;
 import com.met.jumbo.model.Weather;
 import com.met.jumbo.service.IWeatherService;
@@ -22,15 +23,20 @@ public class WeatherService implements IWeatherService {
     WeatherDao dao;
 
     @Override
-    public WeatherDTO details(String address, String type, LocalDate date) throws WeatherNotFoundException {
-        switch (type){
-            case "CITY":
-                return formatWeather(dao.findByCityAndRecordDate(address, date).orElseThrow(() -> new WeatherNotFoundException()));
-            case "ZIPCODE":
-                return formatWeather(dao.findByZipcodeAndRecordDate(address,date).orElseThrow(() -> new WeatherNotFoundException()));
-            default:
-                throw new WeatherNotFoundException();
-        }
+    public WeatherDTO today(String address, String type, LocalDate date) throws WeatherNotFoundException {
+        return formatWeather(dao
+                .findByZipcodeAndAddressTypeAndRecordDate(address, type, date)
+                .orElseThrow(() -> new WeatherNotFoundException()));
+    }
+
+    @Override
+    public WeatherPredictions predictions(String address, String type, LocalDate date) {
+        WeatherPredictions predictions = new WeatherPredictions();
+        dao.findByZipcodeAndAddressTypeAndRecordDate(address, type, date)
+                .ifPresent(w -> predictions.setToday(formatWeather(w)));
+        dao.findByZipcodeAndAddressTypeAndRecordDate(address, type, date.plusDays(1))
+                .ifPresent(w -> predictions.setTomorrow(formatWeather(w)));
+        return predictions;
     }
 
     private static WeatherDTO formatWeather(Weather weather) {

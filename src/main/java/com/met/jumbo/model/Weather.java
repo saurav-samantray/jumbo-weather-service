@@ -23,6 +23,8 @@ public class Weather {
     @Column
     private int id;
 
+    @Column String addressType;
+
     @Column
     private String code;
 

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface WeatherDao extends JpaRepository<Weather, Integer> {
-    Optional<Weather> findByZipcodeAndRecordDate(String zipcode, LocalDate date);
-    Optional<Weather> findByCityAndRecordDate(String city, LocalDate date);
+    Optional<Weather> findByZipcodeAndAddressTypeAndRecordDate(String zipcode, String addressType, LocalDate date);
+//    Optional<Weather> findByZipcodeAndRecordDate(String zipcode, LocalDate date);
+//    Optional<Weather> findByCityAndRecordDate(String city, LocalDate date);
 }
